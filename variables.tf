@@ -1,7 +1,7 @@
 #SG
 variable "ingressrules" {
   type        = list(number)
-  default     = [80, 443, 22]
+  default     = [80, 443, 22, 8080]
   description = "Jenkins ingress port"
 }
 
