@@ -63,6 +63,9 @@ resource "aws_instance" "jenkins" {
         "sudo systemctl enable jenkins",
         "sudo systemctl status jenkins",
         "sudo cat /var/lib/jenkins/secrets/initialAdminPassword"
+        "echo Install EKSCTL"
+        "curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp",
+        "sudo mv /tmp/eksctl /usr/local/bin"
     ]
   }
 
