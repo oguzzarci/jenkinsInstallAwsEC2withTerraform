@@ -1,8 +1,3 @@
-provider "aws" {
-  profile = "oguz"
-  region  = "eu-west-1"
-}
-
 #Ubuntu IMAGE
 /*
 resource "aws_instance" "jenkins" {
