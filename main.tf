@@ -76,6 +76,8 @@ resource "aws_instance" "jenkins" {
         "chmod +x ./aws-iam-authenticator",
         "mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin",
         "echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc"
+        "echo Install HELM",
+        "curl -L https://git.io/get_helm.sh | bash"
 
     ]
   }
