@@ -72,7 +72,10 @@ resource "aws_instance" "jenkins" {
         "mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin",
         "echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc",
         "echo Install HELM",
-        "curl -L https://git.io/get_helm.sh | bash"
+        "curl -L https://git.io/get_helm.sh | bash",
+        "sudo yum install -y docker",
+        "sudo service docker start",
+        "sudo usermod -a -G docker ec2-user"
 
     ]
   }
@@ -121,4 +124,8 @@ resource "aws_security_group" "jenkins-sg" {
   tags = {
     "Terraform" = "true"
   }
+}
+
+output "ip" {
+    value = "${aws_instance.jenkins.public_ip}"
 }
