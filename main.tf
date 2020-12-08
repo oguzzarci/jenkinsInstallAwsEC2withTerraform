@@ -57,7 +57,6 @@ resource "aws_instance" "jenkins" {
         "sudo systemctl start jenkins",
         "sudo systemctl enable jenkins",
         "sudo systemctl status jenkins",
-        "sudo cat /var/lib/jenkins/secrets/initialAdminPassword",
         "echo Install EKSCTL",
         "curl --silent --location https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz | tar xz -C /tmp",
         "sudo mv /tmp/eksctl /usr/local/bin",
@@ -75,7 +74,8 @@ resource "aws_instance" "jenkins" {
         "curl -L https://git.io/get_helm.sh | bash",
         "sudo yum install -y docker",
         "sudo service docker start",
-        "sudo usermod -a -G docker ec2-user"
+        "sudo usermod -a -G docker ec2-user",
+        "sudo cat /var/lib/jenkins/secrets/initialAdminPassword"
 
     ]
   }
@@ -97,7 +97,6 @@ resource "aws_instance" "jenkins" {
   }
 }
 
-
 #Create new SG
 resource "aws_security_group" "jenkins-sg" {
   name        = "Jenkins SG"
@@ -110,7 +109,7 @@ resource "aws_security_group" "jenkins-sg" {
       from_port   = port.value
       to_port     = port.value
       protocol    = "TCP"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
     }
   }
 
@@ -124,8 +123,4 @@ resource "aws_security_group" "jenkins-sg" {
   tags = {
     "Terraform" = "true"
   }
-}
-
-output "ip" {
-    value = "${aws_instance.jenkins.public_ip}"
 }
